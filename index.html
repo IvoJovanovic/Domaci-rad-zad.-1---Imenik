@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html ng-app = "DirectoryApp">
+
+  <head>
+
+    <meta charset="UTF-8">
+    <title>Imenik</title>
+
+    <script src = "./scripts/vendor/lodash.js"></script>       
+    <script src = "./scripts/vendor/angular.js"></script>
+    <script src = "./scripts/vendor/angular-local-storage.js"></script> 
+    <script src = "./scripts/app/app.js"></script>    
+    <script src = "./scripts/app/localStorage.config.js"></script>                   
+    <script src="./scripts/app/student/student.controller.js"></script>  
+    
+  </head>
+
+  <body>
+
+    <div ng-controller="studentController">
+
+        Ime: <input type="text" ng-model="firstName" ng-disabled="students.length >= 10"></input>
+        Prezime : <input type="text" ng-model="lastName" ng-disabled="students.length >= 10"></input>        
+
+        <input type="radio" ng-click="radioClickMale()" ng-checked ="IsMale" ng-disabled="students.length >= 10">Musko</input>     
+        <input type="radio" ng-click="radioClickFemale()" ng-checked ="IsFemale" ng-disabled="students.length >= 10">Zensko</input>  
+
+        <input type="submit" ng-click="submitStudentOnClick() && location.reload()" ng-disabled="students.length >= 10"></input> <br><br>
+
+        <input type="checkbox" ng-selected = "hideBoys()" ng-model = "boysVisible">Sakrij sve dječake</input>        
+        <input type="checkbox" ng-selected = "hideGirls()" ng-model = "girlsVisible">Sakrij sve cure</input>    
+
+        <p ng-repeat="student in students | orderBy: ['sex', 'entryDate']" ng-hide="(student.sex == 'musko' && boysVisible) || (student.sex == 'zensko' && girlsVisible)">
+          First name and last name: {{student.firstName + " " + student.lastName}} <br>
+          Date of entry: {{student.entryDate | date:'MM/dd/yyyy'}}
+        </p>
+
+    </div>
+
+  </body>
+
+</html>
